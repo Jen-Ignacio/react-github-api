@@ -1,12 +1,17 @@
-import React, { useEffect, useState } from "react";
-import Modal from "./modal";
+import React, { useEffect, useState, useContext } from "react";
+import { DataContext } from "../DataContext/CountContext";
 
 export default function Users(props) {
-  const [userData, setUserData] = useState([]);
-  const [showState, setShowState] = useState(false);
+  const [userData, setUserData] = useState({});
+  const [count, setCount] = useState(0);
+  const { setClickCount } = useContext(DataContext);
 
-  function buttonClickedHandler() {
-    setShowState((showState) => (showState = !showState));
+  function handleClicked() {
+    let updateCount = count + 1;
+    setCount(updateCount);
+    setClickCount(updateCount);
+
+    props.buttonClicked();
   }
 
   useEffect(() => {
@@ -15,7 +20,6 @@ export default function Users(props) {
 
   return (
     <div className="is-flex block is-size-4">
-      {showState ? <Modal data={props.data} /> : <></>}
       <div className="column is-one-third is-size-4">{userData.login}</div>
       <div className="column is-narrow has-text-right">{userData.id}</div>
       <div className="column is-narrow is-medium">
@@ -23,7 +27,7 @@ export default function Users(props) {
           className="modal-button button is-primary"
           data-toggle="modal"
           aria-haspopup="true"
-          onClick={buttonClickedHandler}
+          onClick={handleClicked}
         >
           MORE INFO
         </button>

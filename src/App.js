@@ -4,11 +4,23 @@ import { useEffect, useState } from "react";
 import MainHeader from "./Components/mainHeader";
 import TableHeader from "./Components/tableHeader";
 import User from "./Components/usersComponent";
+import Modal from "./Components/modal";
+import { DataContext } from "./DataContext/CountContext";
 
 function App() {
   const [users, setUsers] = useState([]);
+  const [showState, setShowState] = useState(false);
+  const [modalData, setModalData] = useState({});
+  const [clickCount, setClickCount] = useState(0);
 
+  function buttonClickedHandler(user) {
+    setModalData(user);
+    setShowState(true);
+  }
 
+  function closeModal() {
+    setShowState(false);
+  }
 
   useEffect(() => {
     fetch("https://api.github.com/users")
@@ -36,14 +48,24 @@ function App() {
 
   return (
     <div className="container">
-      
-      <MainHeader />
-      <TableHeader />
-      {users.map((el, i) => {
-        return (
-          <User key={el.id} data={el} />
-        );
-      })}
+      <DataContext.Provider value={{ clickCount, setClickCount }}>
+        {showState ? (
+          <Modal data={modalData} showState={showState} close={closeModal} />
+        ) : (
+          <></>
+        )}
+        <MainHeader />
+        <TableHeader />
+        {users.map((el, i) => {
+          return (
+            <User
+              key={el.id}
+              data={el}
+              buttonClicked={() => buttonClickedHandler(el)}
+            />
+          );
+        })}
+      </DataContext.Provider>
     </div>
   );
 }
