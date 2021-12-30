@@ -1,15 +1,14 @@
-import React, { useEffect, useState, useContext } from "react";
-import { DataContext } from "../DataContext/CountContext";
+import React, { useEffect, useState } from "react";
 
 export default function Modal(props) {
   const [showState, setShowState] = useState(false);
   const [modalData, setModalData] = useState({});
-
-  const { clickCount } = useContext(DataContext);
+  const [visitNumber, setVisitNumber] = useState(0);
 
   useEffect(() => {
     setModalData(props.data);
     setShowState(props.showState);
+    setVisitNumber(props.clickCount);
   }, [props]);
 
   return (
@@ -17,8 +16,8 @@ export default function Modal(props) {
       <div className="modal-background"></div>
       <div className="modal-card">
         <header className="modal-card-head">
-          <p className="modal-card-title block">GITHUB USER: {modalData.login}</p>
-          <p className="modal-card-title block">Profile Views: {clickCount}</p>
+          <p className="modal-card-title">GITHUB USER: {modalData.login}</p>
+
           <button
             className="delete"
             aria-label="close"
@@ -26,6 +25,8 @@ export default function Modal(props) {
           ></button>
         </header>
         <section className="modal-card-body">
+          <p className="modal-card-title">Profile Views: {visitNumber}</p>
+          <br />
           <p className="block">login: {modalData.login}</p>
           <p className="block">ID: {modalData.id}</p>
           <p className="block">Node ID: {modalData.node_id}</p>
