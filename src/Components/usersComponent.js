@@ -30,9 +30,9 @@ export default function Users(props) {
         data={userData}
         clickCount={clickCount}
       />
-      <div className="is-flex block is-size-4">
+      <div className="is-flex main-body">
         <div className="column is-one-third is-size-4">{userData.login}</div>
-        <div className="column is-narrow has-text-right">{userData.id}</div>
+        <div className="column is-narrow has-text-left">{userData.id}</div>
         <div className="column is-narrow is-medium">
           <button
             className="modal-button button is-primary"
